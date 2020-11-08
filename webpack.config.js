@@ -3,9 +3,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 清除上一�
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 将CSS提取到文件单独打包
 const TerserJSPlugin = require('terser-webpack-plugin'); //精简JS
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); //精简CSS
-// const merge = require('webpack-merge');
+const CopyPlugin = require('copy-webpack-plugin'); //文件复制
+const template = require('./webpack.config.template.js');
+const merge = require('webpack-merge');
 
-module.exports = {
+module.exports = merge(template, {
   //mode: 'production',
   mode: 'development',
   entry: {
@@ -49,7 +51,6 @@ module.exports = {
           MiniCssExtractPlugin.loader, // 将CSS提取到文件单独打包
           'css-loader', // CSS构建
           'postcss-loader', // 优化CSS
-          // 'sass-loader',
         ],
       },
       {
@@ -80,4 +81,4 @@ module.exports = {
       },
     ],
   },
-};
+});
