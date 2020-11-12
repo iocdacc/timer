@@ -22,6 +22,7 @@ function second2time(second){
 let App = props=>{
   let [audio] = useState(new Audio('./d.mp3'))
   let [timerId, setTimerId] = useState(null)
+  let [custom, setCustom] = useState(0)
   let [timeText, setTimeText] = useState('00:00:00')
   let [from, setFrom] = useState({
     silent: true
@@ -36,16 +37,16 @@ let App = props=>{
   let timerFun = e=>{
     timerId && clearInterval(timerId)
     let second = e.target.dataset.second
-    let startTime = second2time(second)
-    setTimeText(`${startTime.hour.pad()}:${startTime.min.pad()}:${startTime.second.pad()}`)
-    let timerId = setInterval(() => {
+    timerId = second > 0 && setInterval(() => {
       let time = second2time(--second)
       setTimeText(`${time.hour.pad()}:${time.min.pad()}:${time.second.pad()}`)
-      !second && clearInterval(timerId);
-      !second && !from.silent && audio.play();
+      second <= 0 && clearInterval(timerId);
+      second <= 0 && !from.silent && audio.play();
     }, 1000);
-
+    
     setTimerId(timerId)
+    let startTime = second2time(second)
+    setTimeText(`${startTime.hour.pad()}:${startTime.min.pad()}:${startTime.second.pad()}`)
   }
 
   let resetTimerFun = e=>{
@@ -63,9 +64,14 @@ let App = props=>{
             <input type="radio" name="silent" onChange={e=>setFrom({...from, silent: false})}/> 响铃
           </label>
         </li>
-        <li><button onClick={timerFun} data-second="3">30秒</button></li>
+        <li><button onClick={timerFun} data-second="30">30秒</button></li>
         <li><button onClick={timerFun} data-second="60">60秒</button></li>
-        <li><button onClick={timerFun} data-second="120">120秒</button></li>
+        <li>
+          <input className="custom" type="text" value={custom} name="custom" onChange={e=>{
+            /^\d{0,}$/gm.test(e.target.value) && setCustom(e.target.value)
+          }} placeholder="自定义时间"/>
+          <button className="custom-botton" onClick={timerFun} data-second={custom}>确定</button>
+        </li>
         <li><button onClick={resetTimerFun}>重置</button></li>
         <li><span className="timer-text">{timeText}</span></li>
       </ul>
