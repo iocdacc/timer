@@ -25,7 +25,11 @@ let App = props=>{
   let [audio] = useState(new Audio('./d.mp3'))
   let [timerId, setTimerId] = useState(undefined)
   let [custom, setCustom] = useState('')
-  let [timeText, setTimeText] = useState('00:00:00')
+  let [timeText, setTimeText] = useState({
+    hour: 0,
+    min: 0,
+    second: 0,
+  })
   let [from, setFrom] = useState({
     silent: true
   })
@@ -41,20 +45,24 @@ let App = props=>{
     let second = e.target.dataset.second
     timerId = second > 0 && setInterval(() => {
       let time = second2time(--second)
-      setTimeText(`${time.hour.pad()}:${time.min.pad()}:${time.second.pad()}`)
+      setTimeText({...time})
       second <= 0 && (clearInterval(timerId),noSleep.disable());
       second <= 0 && !from.silent && audio.play();
     }, 1000);
     
     setTimerId(timerId)
     let startTime = second2time(second)
-    setTimeText(`${startTime.hour.pad()}:${startTime.min.pad()}:${startTime.second.pad()}`)
+    setTimeText({...startTime})
     
     noSleep.enable();
   }
 
   let resetTimerFun = e=>{
-    timerId && (clearInterval(timerId),setTimeText('00:00:00'))
+    timerId && (clearInterval(timerId),setTimeText({
+      hour: 0,
+      min: 0,
+      second: 0,
+    }))
   }
 
   return (
@@ -77,7 +85,7 @@ let App = props=>{
           <button className="custom-botton" onClick={timerFun} data-second={custom}>确定</button>
         </li>
         <li><button onClick={resetTimerFun}>重置</button></li>
-        <li><span className="timer-text">{timeText}</span></li>
+        <li><span className="timer-text">{`${timeText.hour.pad()}:${timeText.min.pad()}:${timeText.second.pad()}`}</span></li>
       </ul>
     </>
   )
