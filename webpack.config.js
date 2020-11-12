@@ -8,8 +8,8 @@ const template = require('./webpack.config.template.js');
 const merge = require('webpack-merge');
 
 module.exports = merge(template, {
-  //mode: 'production',
-  mode: 'development',
+  mode: 'production',
+  // mode: 'development',
   entry: {
     'main.min': './src/index.js',
   },
