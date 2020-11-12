@@ -15,7 +15,7 @@ module.exports = merge(template, {
   },
   output: {
     filename: 'js/[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'docs'),
     // library: 'index',
     // libraryTarget: 'umd'
   },
@@ -23,7 +23,7 @@ module.exports = merge(template, {
 
   },
   devServer: {
-    contentBase: './dist',
+    contentBase: './docs',
   },
   optimization: {
     minimize: true,
@@ -39,7 +39,7 @@ module.exports = merge(template, {
     }),
     new CopyPlugin({ // 复制文件
       patterns: [
-        {from: 'public', to: 'dist'},
+        {from: 'public'},
       ],
     }),
   ],
@@ -71,10 +71,11 @@ module.exports = merge(template, {
           loader: 'babel-loader',
           options: {
             presets: [
-              '@babel/preset-env' // babel核心
+              '@babel/preset-env', // babel核心
+              '@babel/preset-react',
             ],
             plugins: [
-              '@babel/plugin-syntax-dynamic-import' // import()异步加载模块插件
+              '@babel/plugin-syntax-dynamic-import', // import()异步加载模块插件
             ],
           },
         },
