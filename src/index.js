@@ -25,6 +25,12 @@ let audio = new Audio('./d.mp3')
 let App = props=>{
   let [timeText, setTimeText] = useState('00:00:00')
 
+  useEffect(()=>{
+    return ()=>{
+      timerId && clearInterval(timerId)
+    }
+  }, [])
+
   let timerFun = e=>{
     timerId && clearInterval(timerId)
     let second = e.target.dataset.second
@@ -37,12 +43,17 @@ let App = props=>{
     }, 1000);
   }
 
+  let resetTimerFun = e=>{
+    timerId && (clearInterval(timerId),setTimeText('00:00:00'))
+  }
+
   return (
     <>
       <ul className="timer">
         <li><button onClick={timerFun} data-second="30">30秒</button></li>
         <li><button onClick={timerFun} data-second="60">60秒</button></li>
         <li><button onClick={timerFun} data-second="120">120秒</button></li>
+        <li><button onClick={resetTimerFun}>重置</button></li>
         <li><span className="timer-text">{timeText}</span></li>
       </ul>
     </>
