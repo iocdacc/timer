@@ -19,11 +19,13 @@ function second2time(second){
   }
 }
 
-let timerId
-let audio = new Audio('./d.mp3')
-
 let App = props=>{
+  let [audio] = useState(new Audio('./d.mp3'))
+  let [timerId, setTimerId] = useState(null)
   let [timeText, setTimeText] = useState('00:00:00')
+  let [from, setFrom] = useState({
+    silent: true
+  })
 
   useEffect(()=>{
     return ()=>{
@@ -36,11 +38,14 @@ let App = props=>{
     let second = e.target.dataset.second
     let startTime = second2time(second)
     setTimeText(`${startTime.hour.pad()}:${startTime.min.pad()}:${startTime.second.pad()}`)
-    timerId = setInterval(() => {
+    let timerId = setInterval(() => {
       let time = second2time(--second)
       setTimeText(`${time.hour.pad()}:${time.min.pad()}:${time.second.pad()}`)
-      second === 0 && (clearInterval(timerId),audio.play())
+      !second && clearInterval(timerId);
+      !second && !from.silent && audio.play();
     }, 1000);
+
+    setTimerId(timerId)
   }
 
   let resetTimerFun = e=>{
@@ -50,7 +55,15 @@ let App = props=>{
   return (
     <>
       <ul className="timer">
-        <li><button onClick={timerFun} data-second="30">30秒</button></li>
+        <li>
+          <label className="silent">
+            <input type="radio" name="silent" onChange={e=>setFrom({...from, silent: true})} defaultChecked={true}/> 静音
+          </label>
+          <label className="silent">
+            <input type="radio" name="silent" onChange={e=>setFrom({...from, silent: false})}/> 响铃
+          </label>
+        </li>
+        <li><button onClick={timerFun} data-second="3">30秒</button></li>
         <li><button onClick={timerFun} data-second="60">60秒</button></li>
         <li><button onClick={timerFun} data-second="120">120秒</button></li>
         <li><button onClick={resetTimerFun}>重置</button></li>

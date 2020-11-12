@@ -6,7 +6,7 @@
   right: 0;
   bottom: 0;
   width: 200px;
-  height: 400px;
+  height: 450px;
 }
 
 .timer li button{
@@ -23,4 +23,13 @@
   font-size: 46px;
   text-align: center;
   color: black;
+}
+
+.timer li .silent{
+  display: inline-block;
+  height: 50px;
+  width: 50%;
+  line-height: 50px;
+  font-size: 22px;
+  text-align: center;
 }
