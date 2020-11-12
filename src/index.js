@@ -70,10 +70,10 @@ let App = props=>{
       <ul className="timer">
         <li>
           <label className="silent">
-            <input type="radio" name="silent" onChange={e=>setFrom({...from, silent: true})} defaultChecked={true}/> 静音
+            <input type="radio" name="silent" onChange={e=>setFrom({...from, silent: true})} checked={from.silent}/> 静音
           </label>
           <label className="silent">
-            <input type="radio" name="silent" onChange={e=>setFrom({...from, silent: false})}/> 响铃
+            <input type="radio" name="silent" onChange={e=>setFrom({...from, silent: false})} checked={!from.silent}/> 响铃
           </label>
         </li>
         <li><button onClick={timerFun} data-second="30">30秒</button></li>
