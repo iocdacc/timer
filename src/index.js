@@ -23,8 +23,8 @@ function second2time(second){
 
 let App = props=>{
   let [audio] = useState(new Audio('./d.mp3'))
-  let [timerId, setTimerId] = useState(null)
-  let [custom, setCustom] = useState(0)
+  let [timerId, setTimerId] = useState(undefined)
+  let [custom, setCustom] = useState('')
   let [timeText, setTimeText] = useState('00:00:00')
   let [from, setFrom] = useState({
     silent: true
