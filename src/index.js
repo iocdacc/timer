@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import NoSleep from 'nosleep.js';
 
 import './assets/css/reset.css';
 import './assets/css/index.css';
 
+const noSleep = new NoSleep();
 
 Number.prototype.pad = function(size) {
   var s = String(this);
@@ -47,6 +49,8 @@ let App = props=>{
     setTimerId(timerId)
     let startTime = second2time(second)
     setTimeText(`${startTime.hour.pad()}:${startTime.min.pad()}:${startTime.second.pad()}`)
+
+    noSleep.enable();
   }
 
   let resetTimerFun = e=>{
