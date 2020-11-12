@@ -42,14 +42,14 @@ let App = props=>{
     timerId = second > 0 && setInterval(() => {
       let time = second2time(--second)
       setTimeText(`${time.hour.pad()}:${time.min.pad()}:${time.second.pad()}`)
-      second <= 0 && clearInterval(timerId);
+      second <= 0 && (clearInterval(timerId),noSleep.disable());
       second <= 0 && !from.silent && audio.play();
     }, 1000);
     
     setTimerId(timerId)
     let startTime = second2time(second)
     setTimeText(`${startTime.hour.pad()}:${startTime.min.pad()}:${startTime.second.pad()}`)
-
+    
     noSleep.enable();
   }
 
